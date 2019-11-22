@@ -31,9 +31,9 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.Num = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.Num2 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.Num = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -67,15 +67,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "SETTING";
             // 
-            // Num
+            // Num2
             // 
-            this.Num.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Num.Location = new System.Drawing.Point(6, 20);
-            this.Num.Name = "Num";
-            this.Num.Size = new System.Drawing.Size(100, 21);
-            this.Num.TabIndex = 0;
-            this.Num.Text = "2547470";
-            this.Num.TextChanged += new System.EventHandler(this.Num_TextChanged);
+            this.Num2.Location = new System.Drawing.Point(112, 20);
+            this.Num2.Name = "Num2";
+            this.Num2.Size = new System.Drawing.Size(100, 21);
+            this.Num2.TabIndex = 2;
+            this.Num2.Text = "0";
+            this.Num2.TextChanged += new System.EventHandler(this.Num2_TextChanged);
             // 
             // button1
             // 
@@ -87,14 +86,15 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // Num2
+            // Num
             // 
-            this.Num2.Location = new System.Drawing.Point(112, 20);
-            this.Num2.Name = "Num2";
-            this.Num2.Size = new System.Drawing.Size(100, 21);
-            this.Num2.TabIndex = 2;
-            this.Num2.Text = "2547468";
-            this.Num2.TextChanged += new System.EventHandler(this.Num2_TextChanged);
+            this.Num.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Num.Location = new System.Drawing.Point(6, 20);
+            this.Num.Name = "Num";
+            this.Num.Size = new System.Drawing.Size(100, 21);
+            this.Num.TabIndex = 0;
+            this.Num.Text = "0";
+            this.Num.TextChanged += new System.EventHandler(this.Num_TextChanged);
             // 
             // BUSTED
             // 
