@@ -24,7 +24,7 @@ namespace BBusted
 
             while (AfterWards >= ThisMoment)
             {
-                System.Windows.Forms.Application.DoEvents();
+                Application.DoEvents();
                 ThisMoment = DateTime.Now;
             }
 
@@ -32,16 +32,25 @@ namespace BBusted
         }
 
         //텍스트박스 수정하면 숫자인지 판단하고 맞으면 저장
+        private static Dictionary<string, int> numberValues = new Dictionary<string, int>();
         public static void setBoxNum(ref TextBox textbox, ref int tmp)
         {
             try
             {
-                var num = Int32.Parse(textbox.Text);
+                var num = int.Parse(textbox.Text);
+                if (!numberValues.ContainsKey(textbox.Name))
+                {
+                    numberValues.Add(textbox.Name, num);
+                }
+                else
+                {
+                    numberValues[textbox.Name] = num;
+                }
                 tmp = num;
             }
             catch
             {
-                textbox.Text = "";
+                textbox.Text = $"{numberValues[textbox.Name]}";
             }
         }
 
@@ -73,7 +82,7 @@ namespace BBusted
                 try
                 {
                     var tmpN = tmp.Split("</td>")[0].Replace(",", "");
-                    betResult += Int32.Parse(tmpN);
+                    betResult += int.Parse(tmpN);
                 }
                 catch { }
             }
@@ -89,7 +98,7 @@ namespace BBusted
                 try
                 {
                     var tmpN = tmp.Split("</td>")[0].Replace(",", "");
-                    profitResult += Int32.Parse(tmpN);
+                    profitResult += int.Parse(tmpN);
                 }
                 catch { }
             }
@@ -101,9 +110,9 @@ namespace BBusted
                 try
                 {
                     var tmpN = tmp.Split("</td>")[0].Replace(",", "");
-                    profitResult += Int32.Parse(tmpN);
+                    profitResult += int.Parse(tmpN);
                 }
-                catch{}
+                catch { }
             }
 
             //수익저장

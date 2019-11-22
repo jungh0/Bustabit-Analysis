@@ -37,11 +37,16 @@ namespace BBusted
 
         private void LoadNext(ChromiumWebBrowser browser)
         {
-            gameNum -= 1;
-            if (gameNum == gameNumStop)
+            if (gameNum == gameNumStop - 1)
+            {
+                gameNum++;
                 StopProcess();
+            }
             else
+            {
                 browser.Load("https://www.bustabit.com/game/" + gameNum.ToString());
+                gameNum--;
+            }
         }
 
         private void StopProcess()
@@ -80,7 +85,7 @@ namespace BBusted
                 }
             });
         }
-        
+
         private void makeData(string shtml)
         {
             Extension.parseData(ref result, gameNum, shtml);
@@ -102,6 +107,6 @@ namespace BBusted
             var textbox = sender as TextBox;
             Extension.setBoxNum(ref textbox, ref gameNumStop);
         }
-        
+
     }
 }
