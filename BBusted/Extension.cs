@@ -9,6 +9,13 @@ namespace BBusted
 {
     static class Extension
     {
+        //랜덤만들기
+        public static int Random(int min, int max)
+        {
+            Random r = new Random();
+            return r.Next(min, max);
+        }
+
         //스플릿
         public static string[] Split(this string self, string slash)
         {

@@ -182,3 +182,4 @@ C:\Users\USER\Desktop\Github\Busted\BBusted\obj\x64\Debug\BBusted.Properties.Res
 C:\Users\USER\Desktop\Github\Busted\BBusted\obj\x64\Debug\BBusted.csproj.GenerateResource.cache
 C:\Users\USER\Desktop\Github\Busted\BBusted\obj\x64\Debug\BBusted.exe
 C:\Users\USER\Desktop\Github\Busted\BBusted\obj\x64\Debug\BBusted.pdb
+C:\Users\USER\Desktop\Github\Busted\BBusted\bin\x64\Debug\libcef.zip

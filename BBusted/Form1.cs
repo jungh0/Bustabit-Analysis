@@ -17,7 +17,7 @@ namespace BBusted
     public partial class BUSTED : Form
     {
         private int gameNum = 2547470;
-        private int gameNumStop = 2547458;
+        private int gameNumStop = 2546470;
         private readonly ChromiumWebBrowser browser = null;
         private string result = "";
 
@@ -37,22 +37,33 @@ namespace BBusted
 
         private void LoadNext(ChromiumWebBrowser browser)
         {
-            if (gameNum == gameNumStop - 1)
+            if (gameNum < gameNumStop)
             {
-                gameNum++;
                 StopProcess();
             }
             else
             {
-                browser.Load("https://www.bustabit.com/game/" + gameNum.ToString());
-                gameNum--;
+                //Extension.Delay(Extension.Random(1000,3000));
+                if (gameNum.ToString() == Num.Text)
+                {
+                    browser.Load("https://www.bustabit.com/game/" + gameNum.ToString());
+                }
+                else
+                {
+                    //var js = "location.href = \"/game/" + gameNum.ToString() + "\"";
+                    //var js = "location.replace(\"/game/" + gameNum.ToString() + "\");";
+                    //var js = "document.id.action=\"/game/" + gameNum.ToString() + "\"; document.id.submit();";
+                    var js = "document.getElementsByClassName(\"previous\")[0].getElementsByTagName(\"a\")[0].click();";
+                    browser.ExecuteScriptAsync(js);
+                    IsThere(browser);
+                }
             }
         }
 
         private void StopProcess()
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\";
-            string path2 = gameNum + "-" + Num.Text + ".csv";
+            string path2 = (gameNum + 1).ToString() + "-" + Num.Text + ".csv";
             System.IO.File.WriteAllText(path + path2, result, Encoding.Default);
             MessageBox.Show("DONE:" + gameNum.ToString());
         }
@@ -81,6 +92,7 @@ namespace BBusted
                 else
                 {
                     makeData(html);
+                    gameNum--;
                     LoadNext(browser);
                 }
             });
