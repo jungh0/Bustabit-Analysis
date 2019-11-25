@@ -1,7 +1,7 @@
 import csv
 import pandas as pd
 import numpy as np
-from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
 
 df = pd.read_csv('data.csv')
 df = df.to_numpy()
@@ -30,4 +30,7 @@ for (i, flex) in enumerate(df_x):
     else:
         df[i][4] = (flex[4] - numbers[4][1]) / (numbers[4][0]-numbers[4][1])
 
-pd.DataFrame(df).to_csv("data_output.csv", mode='w', header=False, index=False)
+train_set, test_set = train_test_split(pd.DataFrame(df), test_size= 0.3)
+
+test_set.to_csv("test_set.csv", mode='w', header=False, index=False)
+train_set.to_csv("train_set.csv", mode='w', header=False, index=False)
