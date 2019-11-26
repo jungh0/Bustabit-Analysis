@@ -10,8 +10,13 @@ csvReader.reverse()
 csvfileWrtie = open(filename + "_output.csv", "w", newline="")
 csvWriter = csv.writer(csvfileWrtie)
 
-for idx, line in enumerate(csvReader):
+for idx, line2 in enumerate(csvReader):
     if (idx >= 50):
+        line = list()
+
+        line.append(csvReader[idx][1])
+        line.append(csvReader[idx][2])
+
         previous = 0
         for idx2 in range(idx - 5, idx):
             #print(line[3])

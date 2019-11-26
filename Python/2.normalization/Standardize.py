@@ -27,7 +27,7 @@ for flex in df_x:
 set_a = np.array(set_a)
 set_b = np.array(set_b)
 
-for i in range(0, 9):
+for i in range(0, 8):
     my1 = set_a[:, i]
     my2 = set_b[:, i]
     numbers_A.append((my1.max(), my1.min()))
@@ -35,37 +35,37 @@ for i in range(0, 9):
 
 for (i, flex) in enumerate(set_a):
     set_a[i][0] = 1 if flex[0] >= BUSTED_AT else 0
-    for k in range(1, 9):
-        if k == 3 or k == 4:
+    for k in range(1, 8):
+        if k == 2 or k == 3:
             continue
         set_a[i][k] = (flex[k] - numbers_A[k][1]) / (numbers_A[k][0]-numbers_A[k][1])
     
-    if numbers_A[3][0] >= BUSTED_5:
-        set_a[i][3] = 1 if flex[3] >= BUSTED_5 else (flex[3] - numbers_A[3][1]) / (BUSTED_5-numbers_A[3][1])
+    if numbers_A[2][0] >= BUSTED_5:
+        set_a[i][2] = 1 if flex[2] >= BUSTED_5 else (flex[2] - numbers_A[2][1]) / (BUSTED_5-numbers_A[2][1])
+    else:
+        set_a[i][2] = (flex[2] - numbers_A[2][1]) / (numbers_A[2][0]-numbers_A[2][1])
+
+    if numbers_A[3][0] >= BUSTED_3:
+        set_a[i][3] = 1 if flex[3] >= BUSTED_3 else (flex[3] - numbers_A[3][1]) / (BUSTED_3-numbers_A[3][1])
     else:
         set_a[i][3] = (flex[3] - numbers_A[3][1]) / (numbers_A[3][0]-numbers_A[3][1])
 
-    if numbers_A[4][0] >= BUSTED_3:
-        set_a[i][4] = 1 if flex[4] >= BUSTED_3 else (flex[4] - numbers_A[4][1]) / (BUSTED_3-numbers_A[4][1])
-    else:
-        set_a[i][4] = (flex[4] - numbers_A[4][1]) / (numbers_A[4][0]-numbers_A[4][1])
-
 for (i, flex) in enumerate(set_b):
     set_b[i][0] = 1 if flex[0] >= BUSTED_AT else 0
-    for k in range(1, 9):
-        if k == 3 or k == 4:
+    for k in range(1, 8):
+        if k == 2 or k == 3:
             continue
         set_b[i][k] = (flex[k] - numbers_B[k][1]) / (numbers_B[k][0]-numbers_B[k][1])
     
-    if numbers_B[3][0] >= BUSTED_5:
-        set_b[i][3] = 1 if flex[3] >= BUSTED_5 else (flex[3] - numbers_B[3][1]) / (BUSTED_5-numbers_B[3][1])
+    if numbers_B[2][0] >= BUSTED_5:
+        set_b[i][2] = 1 if flex[2] >= BUSTED_5 else (flex[2] - numbers_B[2][1]) / (BUSTED_5-numbers_B[2][1])
+    else:
+        set_b[i][2] = (flex[2] - numbers_B[2][1]) / (numbers_B[2][0]-numbers_B[2][1])
+
+    if numbers_B[3][0] >= BUSTED_3:
+        set_b[i][3] = 1 if flex[3] >= BUSTED_3 else (flex[3] - numbers_B[3][1]) / (BUSTED_3-numbers_B[3][1])
     else:
         set_b[i][3] = (flex[3] - numbers_B[3][1]) / (numbers_B[3][0]-numbers_B[3][1])
-
-    if numbers_B[4][0] >= BUSTED_3:
-        set_b[i][4] = 1 if flex[4] >= BUSTED_3 else (flex[4] - numbers_B[4][1]) / (BUSTED_3-numbers_B[4][1])
-    else:
-        set_b[i][4] = (flex[4] - numbers_B[4][1]) / (numbers_B[4][0]-numbers_B[4][1])
 
 train_setA, test_setA = train_test_split(pd.DataFrame(set_a), test_size= 0.3)
 train_setB, test_setB = train_test_split(pd.DataFrame(set_b), test_size= 0.3)
