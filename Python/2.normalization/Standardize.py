@@ -7,7 +7,7 @@ BUSTED_AT = 2.0
 BUSTED_5 = 60.0
 BUSTED_3 = 30.0
 
-df = pd.read_csv('data.csv')[:100]
+df = pd.read_csv('data_output.csv')
 df = df.to_numpy()
 df_x = df.copy()
 
@@ -35,7 +35,7 @@ for i in range(0, 9):
 
 for (i, flex) in enumerate(set_a):
     set_a[i][0] = 1 if flex[0] >= BUSTED_AT else 0
-    for k in range(1, 10):
+    for k in range(1, 9):
         if k == 3 or k == 4:
             continue
         set_a[i][k] = (flex[k] - numbers_A[k][1]) / (numbers_A[k][0]-numbers_A[k][1])
@@ -52,7 +52,7 @@ for (i, flex) in enumerate(set_a):
 
 for (i, flex) in enumerate(set_b):
     set_b[i][0] = 1 if flex[0] >= BUSTED_AT else 0
-    for k in range(1, 10):
+    for k in range(1, 9):
         if k == 3 or k == 4:
             continue
         set_b[i][k] = (flex[k] - numbers_B[k][1]) / (numbers_B[k][0]-numbers_B[k][1])
@@ -71,15 +71,26 @@ train_setA, test_setA = train_test_split(pd.DataFrame(set_a), test_size= 0.3)
 train_setB, test_setB = train_test_split(pd.DataFrame(set_b), test_size= 0.3)
 
 train_setA_result = train_setA[:][0]
-train_setA = train_setA[:][1:]
+train_setA_ = train_setA.drop(train_setA.columns[0], axis=1)
 
 train_setB_result = train_setB[:][0]
-train_setB = train_setB[:][1:]
+train_setB_ = train_setB.drop(train_setB.columns[0], axis=1)
+
+ra = list()
+rb = list()
+
+for flex in train_setA_result:
+    ra.append((flex, 1-flex))
+for flex in train_setB_result:
+    rb.append((flex, 1-flex))
+
+ra = np.array(ra)
+rb = np.array(rb)
 
 test_setA.to_csv("test_setA.csv", mode='w', header=False, index=False)
-train_setA.to_csv("train_setA.csv", mode='w', header=False, index=False)
-train_setA_result.to_csv("train_setA_result.csv", mode='w', header=False, index=False)
+train_setA_.to_csv("train_setA.csv", mode='w', header=False, index=False)
+pd.DataFrame(ra).to_csv("train_setA_result.csv", mode='w', header=False, index=False)
 
 test_setB.to_csv("test_setB.csv", mode='w', header=False, index=False)
-train_setB.to_csv("train_setB.csv", mode='w', header=False, index=False)
-train_setB_result.to_csv("train_setB_result.csv", mode='w', header=False, index=False)
+train_setB_.to_csv("train_setB.csv", mode='w', header=False, index=False)
+pd.DataFrame(rb).to_csv("train_setB_result.csv", mode='w', header=False, index=False)
