@@ -4,10 +4,10 @@ from numpy import genfromtxt
 import numpy
 import csv
 
-x_data = genfromtxt('./data/train_data.csv', delimiter=',')
+x_data = genfromtxt('./data/train_setA.csv', delimiter=',')
 #print(x_data)
 
-y_data = genfromtxt('./data/train_result.csv', delimiter=',')
+y_data = genfromtxt('./data/train_setA_result.csv', delimiter=',')
 #print(y_data)
 
 #########
@@ -17,7 +17,7 @@ X = tf.placeholder(tf.float32)
 Y = tf.placeholder(tf.float32)
 
 
-W1 = tf.Variable(tf.random_uniform([9, 10], 0., 1.))
+W1 = tf.Variable(tf.random_uniform([8, 10], 0., 1.))
 b1 = tf.Variable(tf.zeros([10]))
 L1 = tf.add(tf.matmul(X, W1), b1)
 L1 = tf.nn.relu(L1)
@@ -61,7 +61,7 @@ sess = tf.Session()
 sess.run(init)
 #print("!!!!!!!=================================")
 saver.restore(sess, './model/model')
-for step in range(100):
+for step in range(10000):
 	#print("#####@@@@@!!!!!!!=================================")
 	sess.run(train_op, feed_dict={X: x_data, Y: y_data})
 	#print("2#####@@@@@!!!!!!!=================================")
@@ -75,8 +75,8 @@ saver.save(sess, './model/model')
 #########
 # 결과 확인
 ######
-x_data2 = genfromtxt('./data/train_data.csv', delimiter=',')
-y_data2 = genfromtxt('./data/train_result.csv', delimiter=',')
+x_data2 = genfromtxt('./data/train_setA.csv', delimiter=',')
+y_data2 = genfromtxt('./data/train_setA_result.csv', delimiter=',')
 
 prediction = tf.argmax(model, 1)
 target = tf.argmax(Y, 1)
@@ -87,8 +87,8 @@ is_correct = tf.equal(prediction, target)
 accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
 print('정확도: %.2f' % sess.run(accuracy * 100, feed_dict={X: x_data2, Y: y_data2}))
 ###
-x_data2 = genfromtxt('./data/test_data.csv', delimiter=',')
-y_data2 = genfromtxt('./data/test_result.csv', delimiter=',')
+x_data2 = genfromtxt('./data/train_setA.csv', delimiter=',')
+y_data2 = genfromtxt('./data/train_setA_result.csv', delimiter=',')
 
 prediction = tf.argmax(model, 1)
 target = tf.argmax(Y, 1)
