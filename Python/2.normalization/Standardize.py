@@ -3,34 +3,83 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-df = pd.read_csv('data.csv')
+BUSTED_AT = 2.0
+BUSTED_5 = 60.0
+BUSTED_3 = 30.0
+
+df = pd.read_csv('data.csv')[:100]
 df = df.to_numpy()
 df_x = df.copy()
 
-numbers = list()
+numbers_A = list()
+numbers_B = list()
 
-for i in range(0, 10):
-    my = df_x[:, i]
-    numbers.append((my.max(), my.min()))
+set_a = list()
+set_b = list()
 
-for (i, flex) in enumerate(df_x):
-    df[i][0] = 1 if flex[0] >= 3 else 0
+for flex in df_x:
+    ba = flex[1]
+    if ba>=10000 and ba<100000:
+        set_a.append(flex)
+    elif ba>=100000 and ba <500000:
+        set_b.append(flex)
+
+set_a = np.array(set_a)
+set_b = np.array(set_b)
+
+for i in range(0, 9):
+    my1 = set_a[:, i]
+    my2 = set_b[:, i]
+    numbers_A.append((my1.max(), my1.min()))
+    numbers_B.append((my2.max(), my2.min()))
+
+for (i, flex) in enumerate(set_a):
+    set_a[i][0] = 1 if flex[0] >= BUSTED_AT else 0
     for k in range(1, 10):
         if k == 3 or k == 4:
             continue
-        df[i][k] = (flex[k] - numbers[k][1]) / (numbers[k][0]-numbers[k][1])
+        set_a[i][k] = (flex[k] - numbers_A[k][1]) / (numbers_A[k][0]-numbers_A[k][1])
     
-    if numbers[3][0] >= 100:
-        df[i][3] = 1 if flex[3] >= 100 else (flex[3] - numbers[3][1]) / (100-numbers[3][1])
+    if numbers_A[3][0] >= BUSTED_5:
+        set_a[i][3] = 1 if flex[3] >= BUSTED_5 else (flex[3] - numbers_A[3][1]) / (BUSTED_5-numbers_A[3][1])
     else:
-        df[i][3] = (flex[3] - numbers[3][1]) / (numbers[3][0]-numbers[3][1])
+        set_a[i][3] = (flex[3] - numbers_A[3][1]) / (numbers_A[3][0]-numbers_A[3][1])
 
-    if numbers[4][0] >= 60:
-        df[i][4] = 1 if flex[4] >= 100 else (flex[4] - numbers[4][1]) / (100-numbers[4][1])
+    if numbers_A[4][0] >= BUSTED_3:
+        set_a[i][4] = 1 if flex[4] >= BUSTED_3 else (flex[4] - numbers_A[4][1]) / (BUSTED_3-numbers_A[4][1])
     else:
-        df[i][4] = (flex[4] - numbers[4][1]) / (numbers[4][0]-numbers[4][1])
+        set_a[i][4] = (flex[4] - numbers_A[4][1]) / (numbers_A[4][0]-numbers_A[4][1])
 
-train_set, test_set = train_test_split(pd.DataFrame(df), test_size= 0.3)
+for (i, flex) in enumerate(set_b):
+    set_b[i][0] = 1 if flex[0] >= BUSTED_AT else 0
+    for k in range(1, 10):
+        if k == 3 or k == 4:
+            continue
+        set_b[i][k] = (flex[k] - numbers_B[k][1]) / (numbers_B[k][0]-numbers_B[k][1])
+    
+    if numbers_B[3][0] >= BUSTED_5:
+        set_b[i][3] = 1 if flex[3] >= BUSTED_5 else (flex[3] - numbers_B[3][1]) / (BUSTED_5-numbers_B[3][1])
+    else:
+        set_b[i][3] = (flex[3] - numbers_B[3][1]) / (numbers_B[3][0]-numbers_B[3][1])
 
-test_set.to_csv("test_set.csv", mode='w', header=False, index=False)
-train_set.to_csv("train_set.csv", mode='w', header=False, index=False)
+    if numbers_B[4][0] >= BUSTED_3:
+        set_b[i][4] = 1 if flex[4] >= BUSTED_3 else (flex[4] - numbers_B[4][1]) / (BUSTED_3-numbers_B[4][1])
+    else:
+        set_b[i][4] = (flex[4] - numbers_B[4][1]) / (numbers_B[4][0]-numbers_B[4][1])
+
+train_setA, test_setA = train_test_split(pd.DataFrame(set_a), test_size= 0.3)
+train_setB, test_setB = train_test_split(pd.DataFrame(set_b), test_size= 0.3)
+
+train_setA_result = train_setA[:][0]
+train_setA = train_setA[:][1:]
+
+train_setB_result = train_setB[:][0]
+train_setB = train_setB[:][1:]
+
+test_setA.to_csv("test_setA.csv", mode='w', header=False, index=False)
+train_setA.to_csv("train_setA.csv", mode='w', header=False, index=False)
+train_setA_result.to_csv("train_setA_result.csv", mode='w', header=False, index=False)
+
+test_setB.to_csv("test_setB.csv", mode='w', header=False, index=False)
+train_setB.to_csv("train_setB.csv", mode='w', header=False, index=False)
+train_setB_result.to_csv("train_setB_result.csv", mode='w', header=False, index=False)
