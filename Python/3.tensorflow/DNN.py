@@ -2,6 +2,7 @@ import tensorflow as tf
 import numpy as np
 from numpy import genfromtxt
 import numpy
+import csv
 
 x_data = genfromtxt('./data/train_data.csv', delimiter=',')
 #print(x_data)
@@ -60,7 +61,7 @@ sess = tf.Session()
 sess.run(init)
 #print("!!!!!!!=================================")
 saver.restore(sess, './model/model')
-for step in range(1000000):
+for step in range(100):
 	#print("#####@@@@@!!!!!!!=================================")
 	sess.run(train_op, feed_dict={X: x_data, Y: y_data})
 	#print("2#####@@@@@!!!!!!!=================================")
@@ -95,11 +96,30 @@ target = tf.argmax(Y, 1)
 print('예측값:', sess.run(prediction, feed_dict={X: x_data2}))
 print('실제값:', sess.run(target, feed_dict={Y: y_data2}))
 
-csv_prediction = sess.run(prediction, feed_dict={X: x_data2})
-numpy.savetxt("test_predict.csv", csv_prediction, delimiter=",")
-csv_prediction = sess.run(target, feed_dict={Y: y_data2})
-numpy.savetxt("test_real.csv", csv_prediction, delimiter=",")
+csv_prediction1 = sess.run(prediction, feed_dict={X: x_data2})
+numpy.savetxt("test_predict.csv", csv_prediction1, delimiter=",")
+csv_prediction2 = sess.run(target, feed_dict={Y: y_data2})
+numpy.savetxt("test_real.csv", csv_prediction2, delimiter=",")
 
 is_correct = tf.equal(prediction, target)
 accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
 print('정확도: %.2f' % sess.run(accuracy * 100, feed_dict={X: x_data2, Y: y_data2}))
+
+
+csvfileRead1 = open('test_predict.csv', 'r', encoding='utf-8')
+csvReader1 = list(csv.reader(csvfileRead1))
+csvfileRead2 = open('test_real.csv', 'r', encoding='utf-8')
+csvReader2 = list(csv.reader(csvfileRead2))
+
+csvfileWrtie = open("test_output.csv", "w", newline="")
+csvWriter = csv.writer(csvfileWrtie)
+
+for idx, line in enumerate(csvReader1):
+	line = []
+	line.append(int(csvReader1[idx][0].replace(".000000000000000000e+00","")))
+	line.append(int(csvReader2[idx][0].replace(".000000000000000000e+00","")))
+	csvWriter.writerow(line)
+	
+csvfileRead1.close()
+csvfileRead2.close()
+csvfileWrtie.close()
