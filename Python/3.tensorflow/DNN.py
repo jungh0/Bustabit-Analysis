@@ -3,11 +3,14 @@ import numpy as np
 from numpy import genfromtxt
 import numpy
 import csv
+import os
 
-x_data = genfromtxt('./data/train_setA.csv', delimiter=',')
+FILE_NAME = "setA"
+
+x_data = genfromtxt('./data/train_' + FILE_NAME + '.csv', delimiter=',')
 #print(x_data)
 
-y_data = genfromtxt('./data/train_setA_result.csv', delimiter=',')
+y_data = genfromtxt('./data/train_' + FILE_NAME + '_result.csv', delimiter=',')
 #print(y_data)
 
 #########
@@ -17,7 +20,7 @@ X = tf.placeholder(tf.float32)
 Y = tf.placeholder(tf.float32)
 
 
-W1 = tf.Variable(tf.random_uniform([8, 10], 0., 1.))
+W1 = tf.Variable(tf.random_uniform([7, 10], 0., 1.))
 b1 = tf.Variable(tf.zeros([10]))
 L1 = tf.add(tf.matmul(X, W1), b1)
 L1 = tf.nn.relu(L1)
@@ -60,7 +63,7 @@ init = tf.global_variables_initializer()
 sess = tf.Session()
 sess.run(init)
 #print("!!!!!!!=================================")
-saver.restore(sess, './model/model')
+saver.restore(sess, './model_' + FILE_NAME + '/model')
 for step in range(10000):
 	#print("#####@@@@@!!!!!!!=================================")
 	sess.run(train_op, feed_dict={X: x_data, Y: y_data})
@@ -70,13 +73,13 @@ for step in range(10000):
 		#saver.save(sess, './model/model')
 
 print(sess.run(cost, feed_dict={X: x_data, Y: y_data}))
-saver.save(sess, './model/model')
+saver.save(sess, './model_' + FILE_NAME + '/model')
 #print("@@@@@!!!!!!!=================================")
 #########
 # 결과 확인
 ######
-x_data2 = genfromtxt('./data/train_setA.csv', delimiter=',')
-y_data2 = genfromtxt('./data/train_setA_result.csv', delimiter=',')
+x_data2 = genfromtxt('./data/train_' + FILE_NAME + '.csv', delimiter=',')
+y_data2 = genfromtxt('./data/train_' + FILE_NAME + '_result.csv', delimiter=',')
 
 prediction = tf.argmax(model, 1)
 target = tf.argmax(Y, 1)
@@ -87,14 +90,16 @@ is_correct = tf.equal(prediction, target)
 accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
 print('정확도: %.2f' % sess.run(accuracy * 100, feed_dict={X: x_data2, Y: y_data2}))
 ###
-x_data2 = genfromtxt('./data/train_setA.csv', delimiter=',')
-y_data2 = genfromtxt('./data/train_setA_result.csv', delimiter=',')
+x_data2 = genfromtxt('./data/test_' + FILE_NAME + '.csv', delimiter=',')
+y_data2 = genfromtxt('./data/test_' + FILE_NAME + '_result.csv', delimiter=',')
 
 prediction = tf.argmax(model, 1)
 target = tf.argmax(Y, 1)
 
 print('예측값:', sess.run(prediction, feed_dict={X: x_data2}))
 print('실제값:', sess.run(target, feed_dict={Y: y_data2}))
+
+#==================================
 
 csv_prediction1 = sess.run(prediction, feed_dict={X: x_data2})
 numpy.savetxt("test_predict.csv", csv_prediction1, delimiter=",")
@@ -123,3 +128,6 @@ for idx, line in enumerate(csvReader1):
 csvfileRead1.close()
 csvfileRead2.close()
 csvfileWrtie.close()
+
+os.remove('test_predict.csv')
+os.remove('test_real.csv')
