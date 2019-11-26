@@ -70,27 +70,44 @@ for (i, flex) in enumerate(set_b):
 train_setA, test_setA = train_test_split(pd.DataFrame(set_a), test_size= 0.3)
 train_setB, test_setB = train_test_split(pd.DataFrame(set_b), test_size= 0.3)
 
+test_setA_result = test_setA[:][0]
+test_setA_ = test_setA.drop(test_setA.columns[0], axis=1)
+
 train_setA_result = train_setA[:][0]
 train_setA_ = train_setA.drop(train_setA.columns[0], axis=1)
+
+test_setB_result = test_setB[:][0]
+test_setB_ = test_setB.drop(test_setB.columns[0], axis=1)
 
 train_setB_result = train_setB[:][0]
 train_setB_ = train_setB.drop(train_setB.columns[0], axis=1)
 
 ra = list()
+ra_ = list()
 rb = list()
+rb_ = list()
 
 for flex in train_setA_result:
-    ra.append((flex, 1-flex))
+    ra.append((1-flex, flex))
 for flex in train_setB_result:
-    rb.append((flex, 1-flex))
+    rb.append((1-flex, flex))
+
+for flex in test_setA_result:
+    ra_.append((1-flex, flex))
+for flex in test_setB_result:
+    rb_.append((1-flex, flex))
 
 ra = np.array(ra)
 rb = np.array(rb)
+ra_ = np.array(ra_)
+rb_ = np.array(rb_)
 
-test_setA.to_csv("test_setA.csv", mode='w', header=False, index=False)
+test_setA_.to_csv("test_setA.csv", mode='w', header=False, index=False)
+pd.DataFrame(ra_).to_csv("test_setA_result.csv", mode='w', header=False, index=False)
 train_setA_.to_csv("train_setA.csv", mode='w', header=False, index=False)
 pd.DataFrame(ra).to_csv("train_setA_result.csv", mode='w', header=False, index=False)
 
-test_setB.to_csv("test_setB.csv", mode='w', header=False, index=False)
+test_setB_.to_csv("test_setB.csv", mode='w', header=False, index=False)
+pd.DataFrame(rb_).to_csv("test_setB_result.csv", mode='w', header=False, index=False)
 train_setB_.to_csv("train_setB.csv", mode='w', header=False, index=False)
 pd.DataFrame(rb).to_csv("train_setB_result.csv", mode='w', header=False, index=False)
