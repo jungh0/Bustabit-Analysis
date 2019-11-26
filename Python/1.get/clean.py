@@ -11,7 +11,7 @@ csvfileWrtie = open(filename + "_output.csv", "w", newline="")
 csvWriter = csv.writer(csvfileWrtie)
 
 for idx, line in enumerate(csvReader):
-    if (idx >= 100):
+    if (idx >= 50):
         previous = 0
         for idx2 in range(idx - 5, idx):
             #print(line[3])
@@ -22,12 +22,6 @@ for idx, line in enumerate(csvReader):
         for idx2 in range(idx - 3, idx):
             #print(line[3])
             previous += float(csvReader[idx2][1])
-        line.append(previous)
-
-        previous = 0
-        for idx2 in range(idx - 100, idx):
-            #print(line[3])
-            previous += int(csvReader[idx2][3])
         line.append(previous)
 
         previous = 0
