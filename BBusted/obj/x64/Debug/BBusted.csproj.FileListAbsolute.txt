@@ -98,7 +98,6 @@ C:\Users\USER\Desktop\Github\Busted\BBusted\bin\x64\Debug\chrome_elf.dll
 C:\Users\USER\Desktop\Github\Busted\BBusted\bin\x64\Debug\d3dcompiler_47.dll
 C:\Users\USER\Desktop\Github\Busted\BBusted\bin\x64\Debug\devtools_resources.pak
 C:\Users\USER\Desktop\Github\Busted\BBusted\bin\x64\Debug\icudtl.dat
-C:\Users\USER\Desktop\Github\Busted\BBusted\bin\x64\Debug\libcef.dll
 C:\Users\USER\Desktop\Github\Busted\BBusted\bin\x64\Debug\libEGL.dll
 C:\Users\USER\Desktop\Github\Busted\BBusted\bin\x64\Debug\libGLESv2.dll
 C:\Users\USER\Desktop\Github\Busted\BBusted\bin\x64\Debug\locales\am.pak
@@ -183,3 +182,4 @@ C:\Users\USER\Desktop\Github\Busted\BBusted\obj\x64\Debug\BBusted.csproj.Generat
 C:\Users\USER\Desktop\Github\Busted\BBusted\obj\x64\Debug\BBusted.exe
 C:\Users\USER\Desktop\Github\Busted\BBusted\obj\x64\Debug\BBusted.pdb
 C:\Users\USER\Desktop\Github\Busted\BBusted\bin\x64\Debug\libcef.zip
+C:\Users\USER\Desktop\Github\Busted\BBusted\bin\x64\Debug\libcef.dll

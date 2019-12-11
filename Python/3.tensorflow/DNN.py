@@ -20,7 +20,7 @@ X = tf.placeholder(tf.float32)
 Y = tf.placeholder(tf.float32)
 
 
-W1 = tf.Variable(tf.random_uniform([7, 10], 0., 1.))
+W1 = tf.Variable(tf.random_uniform([11, 10], 0., 1.))
 b1 = tf.Variable(tf.zeros([10]))
 L1 = tf.add(tf.matmul(X, W1), b1)
 L1 = tf.nn.relu(L1)
@@ -51,7 +51,7 @@ model = tf.add(tf.matmul(L4, W3), b3)
 cost = tf.reduce_mean(
 	tf.nn.softmax_cross_entropy_with_logits(labels=Y, logits=model))
 
-optimizer = tf.train.AdamOptimizer(learning_rate=0.001)
+optimizer = tf.train.AdamOptimizer(learning_rate=0.01)
 train_op = optimizer.minimize(cost)
 
 
@@ -63,8 +63,8 @@ init = tf.global_variables_initializer()
 sess = tf.Session()
 sess.run(init)
 #print("!!!!!!!=================================")
-saver.restore(sess, './model_' + FILE_NAME + '/model')
-for step in range(10000):
+#saver.restore(sess, './model_' + FILE_NAME + '/model')
+for step in range(100000):
 	#print("#####@@@@@!!!!!!!=================================")
 	sess.run(train_op, feed_dict={X: x_data, Y: y_data})
 	#print("2#####@@@@@!!!!!!!=================================")
