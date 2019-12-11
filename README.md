@@ -21,9 +21,9 @@ Bustabit은 Hash 함수를 이용하여 절대 개발자가 미래 게임 결과
 하지만 http response 부분에는 데이터가 없었고 자바스크립트만이 존재했다.<br>
 그 자바스크립트는 해석이 불가하였다.<br>
 결국 결과 자체의 화면과 소스를 이용할 수 있는 .NET의 WebBrowser을 이용하기로 했다.
-### http Web Debugging
+##### http Web Debugging
 ![image](https://user-images.githubusercontent.com/8678595/70587129-7537d500-1c0c-11ea-810d-9027e73d6b0f.png)
-### Response 데이터 
+#### Response 데이터 
 ```html
 <html lang="en">
 <!--header 생략-->
@@ -48,18 +48,35 @@ Bustabit은 Hash 함수를 이용하여 절대 개발자가 미래 게임 결과
 하지만 Internet Explorer에서는 접속을 할 수 없기에 WebBrowser 사용이 불가하였다.<br>
 결국 CefSharp ChromiumWebBrowser을 사용하여 크롬 제어 환경을 만들었다.<br>
 각 피처는 게임번호, 게임 결과 배수, 총 배팅 금액, 이용자의 총 수익으로 정하였다.
+##### CefSharp dll
 <pre><a href="https://www.codeproject.com/Tips/1058700/Embedding-Chrome-in-your-Csharp-App-using-CefSharp">https://www.codeproject.com/Tips/1058700/Embedding-Chrome-in-your-Csharp-App-using-CefSharp</a></pre>
 <img src='https://user-images.githubusercontent.com/8678595/70589167-62280380-1c12-11ea-8de5-52fc7cd03c4d.gif' width='400px'/>
 
-15,797개의 게임 데이터 csv 파일 
+##### 수집된 15,797개의 게임 데이터 csv 파일 
 <pre><a href="https://github.com/jungh0/Busted/blob/master/Files/2537203-2553000.csv">https://github.com/jungh0/Busted/blob/master/Files/2537203-2553000.csv</a></pre>
 
 ## Tensorflow를 이용한 데이터 학습
 
 ### Data Preprocessing
+
+#### Cleaning
 우리가 예측해야할것은 게임 결과의 배수이고 그 게임의 총 배팅 금액, 이용자의 총 수익은 알지 못한다.<br>
 즉 우리가 알고있고 학습시켜야할 데이터는 과거의 게임 결과이다.<br>
 결론적으로 선택한 최종 피처는 1,2,3,4,5,6,7,8,9,10 이전의 게임의 배수의 합과 100,50,10,5,3의 게임 이득의 합이다.<br>
 input은 15개가 될것이고 output은 게임 결과의 배수로 1개가 될것이다.<br>
+hidden layer는 3개로 10X20X10의 형태로 만들었다.<br>
+![image](https://user-images.githubusercontent.com/8678595/70593372-24ca7280-1c20-11ea-9929-b926b899c8b3.png)
+
+##### Output csv 파일
+<pre><a href="https://github.com/jungh0/Busted/blob/master/Python/1.get/data_output.csv">https://github.com/jungh0/Busted/blob/master/Python/1.get/data_output.csv</a></pre>
+
+#### Standardization & Train/Test set
+모든 데이터는 0과 1사이로 표준화를 시키고 7:3 비율로 train/test set을 나눈다.<br>
+##### Train set
+<pre><a href="https://github.com/jungh0/Busted/blob/master/Python/2.normalization/train_setA.csv">https://github.com/jungh0/Busted/blob/master/Python/2.normalization/train_setA.csv</a></pre>
+<pre><a href="https://github.com/jungh0/Busted/blob/master/Python/2.normalization/train_setA_result.csv">https://github.com/jungh0/Busted/blob/master/Python/2.normalization/train_setA_result.csv</a></pre>
+##### Test set
+<pre><a href="https://github.com/jungh0/Busted/blob/master/Python/2.normalization/test_setA.csv">https://github.com/jungh0/Busted/blob/master/Python/2.normalization/test_setA.csv</a></pre>
+<pre><a href="https://github.com/jungh0/Busted/blob/master/Python/2.normalization/test_setA_result.csv">https://github.com/jungh0/Busted/blob/master/Python/2.normalization/test_setA_result.csv</a></pre>
 
 ### Data Analysis
